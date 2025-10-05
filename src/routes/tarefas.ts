@@ -1,5 +1,5 @@
 import express from "express";
-import { getTarefas, getTarefaById, createTarefa, updateTarefa, deleteTarefa } from "../controllers/tarefasController";
+import { getTarefas, getTarefaById, createTarefa, updateTarefa, deleteTarefa } from "../controllers/tarefasControllers";
 
 const router = express.Router();
 
