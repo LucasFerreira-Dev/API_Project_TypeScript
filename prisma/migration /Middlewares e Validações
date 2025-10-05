@@ -1,0 +1,102 @@
+3. Middlewares e Validações
+
+Exemplo em Express:
+
+middleware/errorHandler.js
+// middleware/errorHandler.js
+function errorHandler(err, req, res, next) {
+  console.error(err);
+
+  if (err.code === "P2002") {
+    // Prisma: campo único duplicado
+    return res.status(400).json({ error: "Já existe registro com este valor único." });
+  }
+
+  if (err.code === "P2025") {
+    // Prisma: registro não encontrado
+    return res.status(404).json({ error: "Registro não encontrado." });
+  }
+
+  return res.status(500).json({ error: "Erro interno do servidor." });
+}
+
+module.exports = errorHandler;
+
+
+
+***Exemplo de validação ao criar tarefa : 
+
+
+
+// routes/taskRoutes.js
+const express = require("express");
+const { PrismaClient } = require("@prisma/client");
+const router = express.Router();
+const prisma = new PrismaClient();
+
+// Criar tarefa
+router.post("/", async (req, res, next) => {
+  try {
+    const { title, description, userId } = req.body;
+
+    if (!title || !userId) {
+      return res.status(400).json({ error: "Título e usuário são obrigatórios." });
+    }
+
+    const task = await prisma.task.create({
+      data: { title, description, userId },
+    });
+
+    res.json(task);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// Buscar tarefa por ID
+router.get("/:id", async (req, res, next) => {
+  try {
+    const id = parseInt(req.params.id);
+    const task = await prisma.task.findUnique({ where: { id } });
+
+    if (!task) {
+      return res.status(404).json({ error: "Tarefa não encontrada." });
+    }
+
+    res.json(task);
+  } catch (err) {
+    next(err);
+  }
+});
+
+module.exports = router;
+
+******
+
+server.js:
+
+
+const express = require("express");
+const app = express();
+const taskRoutes = require("./routes/taskRoutes");
+const errorHandler = require("./middleware/errorHandler");
+
+app.use(express.json());
+
+app.use("/tasks", taskRoutes);
+
+// Middleware global de erros
+app.use(errorHandler);
+
+app.listen(3000, () => console.log("Servidor rodando na porta 3000"));
+
+
+✅ Com isso você já tem:
+
+Banco modelado com Prisma
+
+Migrations rodando
+
+Middleware de erro global
+
+Validações básicas (campos obrigatórios e id inexistente)
