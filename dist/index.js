@@ -12,6 +12,4 @@ app.use(express_1.default.json());
 (0, swagger_1.setupSwagger)(app);
 app.use('', tarefas_1.default);
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`🚀 Server is running on http://localhost:${PORT}`);
-});
+app.listen(PORT, () => console.log(`🚀 Server is running on http://localhost:${PORT}`));
