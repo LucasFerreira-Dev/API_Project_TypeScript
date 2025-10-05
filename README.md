@@ -25,3 +25,25 @@ Isso irá:
 ```bash
 docker ps
 ```
+
+###  **Execute as Migrações do Banco**
+
+```bash
+# Gerar o Prisma Client
+npx prisma generate
+
+# Executar migrações
+npx prisma migrate dev
+```
+
+###  **Inicie a Aplicação**
+
+```bash
+npm run dev
+
+# Build para produção
+npm run build
+npm start
+```
+
+A aplicação estará disponível em: **http://localhost:3333**
