@@ -1,22 +1,16 @@
 import { Request, Response, NextFunction } from "express";
-import { z } from "zod";
+import { PrismaClient } from "@prisma/client";
 
-// Esquema para validação da tarefa
-export const esquemaTarefa = z.object({
-  titulo: z.string().min(1, "O título é obrigatório"),
-  descricao: z.string().optional(),
-  status: z.enum(["pendente", "em_andamento", "concluida"]).optional(),
-  concluidoEm: z.string().datetime().optional(),
-});
+const prisma = new PrismaClient();
 
-// Middleware para validar o corpo da requisição
-export function validarTarefa(req: Request, res: Response, next: NextFunction) {
-  const resultado = esquemaTarefa.safeParse(req.body);
-  if (!resultado.success) {
-    // Retorna todos os erros encontrados na validação
-    return res.status(400).json({
-      erro: resultado.error.errors.map(e => e.message).join(", "),
-    });
+// Middleware para verificar se a tarefa existe pelo ID
+export async function verificarTarefaExiste(req: Request, res: Response, next: NextFunction) {
+  const id = Number(req.params.id);
+  const tarefa = await prisma.tarefa.findUnique({ where: { id } });
+
+  if (!tarefa) {
+    return res.status(404).json({ erro: "Tarefa não encontrada." });
   }
+
   next();
 }
