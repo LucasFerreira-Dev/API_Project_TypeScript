@@ -7,9 +7,9 @@ const options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'API de Tarefas',
+      title: '📖 API de Gestão de Tarefas',
       version: '1.0.0',
-      description: 'Documentação da API usando Swagger ',
+      description: 'Documentação da API de Gerenciamento de Tarefas. Permite criar, listar, atualizar e deletar tarefas.'
     },
     servers: [
       {
