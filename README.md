@@ -48,9 +48,9 @@ npm start
 
 A aplicação estará disponível em: **http://localhost:3333**
 
-## 🧪 Testando a API
+## Testando a API
 
-### **1. Usando Swagger (Recomendado)**
+###  Usando Swagger (Recomendado)**
 
 1. Acesse: http://localhost:3333/api-docs
 2. Clique em qualquer endpoint
