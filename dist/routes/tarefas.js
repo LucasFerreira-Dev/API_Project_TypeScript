@@ -1,23 +1,19 @@
-import express from "express";
-import {
-  getTarefas,
-  getTarefaById,
-  createTarefa,
-  updateTarefa,
-  deleteTarefa,
-} from "../controllers/tarefasControllers";
-import { validarTarefa } from "../middlewares/validarTarefa";
-import { verificarTarefaExiste } from "../middlewares/verificarTarefaExiste";
-
-const router = express.Router();
-
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const tarefasControllers_1 = require("../controllers/tarefasControllers");
+const validarTarefa_1 = require("../middlewares/validarTarefa");
+const verificarTarefaExiste_1 = require("../middlewares/verificarTarefaExiste");
+const router = express_1.default.Router();
 /**
  * @swagger
  * tags:
  *   name: Tarefas
  *   description: Endpoints para gerenciar tarefas
  */
-
 /**
  * @swagger
  * /tarefas:
@@ -28,8 +24,7 @@ const router = express.Router();
  *       200:
  *         description: Lista de tarefas
  */
-router.get("/tarefas", getTarefas);
-
+router.get("/tarefas", tarefasControllers_1.getTarefas);
 /**
  * @swagger
  * /tarefas/{id}:
@@ -51,8 +46,7 @@ router.get("/tarefas", getTarefas);
  *       500:
  *         description: Erro interno do servidor
  */
-router.get("/tarefas/:id", verificarTarefaExiste, getTarefaById);
-
+router.get("/tarefas/:id", verificarTarefaExiste_1.verificarTarefaExiste, tarefasControllers_1.getTarefaById);
 /**
  * @swagger
  * /tarefas:
@@ -82,8 +76,7 @@ router.get("/tarefas/:id", verificarTarefaExiste, getTarefaById);
  *       500:
  *         description: Erro interno do servidor
  */
-router.post("/tarefas", validarTarefa, createTarefa);
-
+router.post("/tarefas", validarTarefa_1.validarTarefa, tarefasControllers_1.createTarefa);
 /**
  * @swagger
  * /tarefas/{id}:
@@ -120,10 +113,9 @@ router.post("/tarefas", validarTarefa, createTarefa);
  *       404:
  *         description: Tarefa não encontrada
  *       500:
- *         description: Erro interno do servidor 
+ *         description: Erro interno do servidor
  */
-router.put("/tarefas/:id", verificarTarefaExiste, validarTarefa, updateTarefa);
-
+router.put("/tarefas/:id", verificarTarefaExiste_1.verificarTarefaExiste, validarTarefa_1.validarTarefa, tarefasControllers_1.updateTarefa);
 /**
  * @swagger
  * /tarefas/{id}:
@@ -145,6 +137,5 @@ router.put("/tarefas/:id", verificarTarefaExiste, validarTarefa, updateTarefa);
  *       500:
  *         description: Erro interno do servidor
  */
-router.delete("/tarefas/:id", verificarTarefaExiste, deleteTarefa);
-
-export default router;
+router.delete("/tarefas/:id", verificarTarefaExiste_1.verificarTarefaExiste, tarefasControllers_1.deleteTarefa);
+exports.default = router;

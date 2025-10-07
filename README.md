@@ -4,6 +4,7 @@
 
 ```bash
 npm install
+npm install zod
 ```
 
 ### **Configure o Banco de Dados**
@@ -50,7 +51,7 @@ A aplicação estará disponível em: **http://localhost:3333**
 
 ## Testando a API
 
-###  Usando Swagger (Recomendado)**
+###  Usando Swagger (Recomendado)
 
 1. Acesse: http://localhost:3333/api-docs
 2. Clique em qualquer endpoint

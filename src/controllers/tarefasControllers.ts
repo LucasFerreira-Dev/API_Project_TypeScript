@@ -42,5 +42,12 @@ export const deleteTarefa = async (req: Request, res: Response) => {
   const id = Number(req.params.id);
 
   await prisma.tarefa.delete({ where: { id } });
+
+  // Conta quantas tarefas ainda existem
+  const totalTarefas = await prisma.tarefa.count();
+  if (totalTarefas === 0) {
+    await prisma.$executeRawUnsafe(`ALTER SEQUENCE "Tarefa_id_seq" RESTART WITH 1`)
+  }
+
   res.json({ message: `Tarefa ${id} deletada com sucesso` });
 };
