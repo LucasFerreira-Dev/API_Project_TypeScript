@@ -1,5 +1,10 @@
 # API_Project_TypeScript
 
+## **Configurações**
+```bash
+Back-End
+```
+
 ### **Instale as Dependências**
 
 ```bash
@@ -11,8 +16,14 @@ npm install zod
 
 #### Inicie o PostgreSQL com Docker:
 
+usado quando alterei algo no projeto e quero rebuildar:
 ```bash
 docker-compose up -d
+```
+
+usado quando já está tudo buildado e quero só rodar rápido em background, ou quando não possui contender:
+```bash
+docker compose up --build
 ```
 
 Isso irá:
@@ -57,3 +68,9 @@ A aplicação estará disponível em: **http://localhost:3333**
 2. Clique em qualquer endpoint
 3. Clique em "Try it out"
 4. Preencha os dados e clique em "Execute"
+
+## Executar tudo pelo docker tanto o back quanto o front
+```bash
+docker compose up --build
+```
+Priorize executar pelo proprio docke.

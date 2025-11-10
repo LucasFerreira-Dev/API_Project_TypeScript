@@ -28,6 +28,28 @@ services:
       # Monta o diretório local `init` dentro do container para executar os scripts
       - ./init:/docker-entrypoint-initdb.d
 
+  back:
+    build: ./back
+    container_name: back
+    restart: always
+    ports:
+      - "3333:3333"
+    env_file:
+      - ./back/.env
+    depends_on:
+      - db
+    volumes:
+      - ./back:/app
+
+  front:
+    build: ./front
+    container_name: front
+    restart: always
+    ports:
+      - "5173:5173"
+    depends_on:
+      - back
+
 # Define os volumes que serão gerenciados pelo Docker
 volumes:
   postgres_data:
