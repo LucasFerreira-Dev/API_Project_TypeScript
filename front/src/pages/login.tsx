@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import logoImg from "../assets/logo.png";
 import {
   Button,
@@ -6,9 +6,46 @@ import {
   Typography,
   Paper,
   TextField,
+  Alert,
 } from "@mui/material";
+import { z } from "zod";
+
+// 📌 Validações com Zod (como no seu código original)
+const emailSchema = z.string().email("Email inválido");
+
+//aqui onde altera o tamanho minimo da senha e as regras da validação
+const passwordSchema = z
+.string()
+.min(6, "A senha deve ter pelo menos 6 caracteres")
+.regex(/[A-Z]/, "A senha deve conter ao menos uma letra maiúscula")
+.regex(/[0-9]/, "A senha deve conter ao menos um número")
+.regex(/[^A-Za-z0-9]/, "A senha deve conter ao menos um caractere especial");
 
 const Login: React.FC = () => {
+    // estados para email, senha e mensagem de erro
+    const [email, setEmail] = useState("");
+    const [senha, setSenha] = useState("");
+    const [error, setError] = useState("");
+
+    // validações usando zod
+    const emailValid = emailSchema.safeParse(email).success;
+    const senhaParse = passwordSchema.safeParse(senha);
+    const senhaValid = senhaParse.success;
+    const senhaError = senhaParse.success ? "" : senhaParse.error.issues[0].message;
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        if (!emailValid || !senhaValid) {
+            setError("Preencha os campos corretamente.");
+            return;
+        }
+
+        setError("");
+
+        // Aqui você faz o login real (axios, etc.)
+        alert("Login válido!");
+        };
+
     return (
         <Box
             sx={{
@@ -49,24 +86,64 @@ const Login: React.FC = () => {
                     <Typography variant="body2" color="text.secondary">
                         Faça login para acessar o sistema
                     </Typography>
-                    <Box component="form">
+
+                        {/* Exemplo de mensagem de erro? */}
+                    {error && (
+                        <Alert severity="error" sx={{ mb: 2 }}>
+                            {error}
+                        </Alert>
+                    )}
+
+                    <Box component="form" onSubmit={handleSubmit}>
                         <TextField
                             label="Email"
                             type="email"
                             fullWidth
-                            sx={{ mt: 1 }} // adiciona espaçamento acima (2 = ~16px)
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            error={email.length > 0 && !emailValid}
+                            helperText={!emailValid && email.length > 0 ? "Email inválido" : ""}   
+                            sx={{ 
+                                mt: 1 , // adiciona espaçamento acima (2 = ~16px)
+                                mb: 1, // adiciona espaçamento abaixo (2 = ~16px)
+                                "& .MuiOutlinedInput-root" : {
+                                 "&.Mui-focused fieldset":{
+                                        borderColor: email.length > 0 && emailValid ? "green" : undefined,
+                                    },
+                                },
+                                "& .MuiInputLabel-root.Mui-focused": {
+                                    color: email.length > 0 && emailValid ? "green" : undefined,
+                                },
+
+                            }} 
                         />
                         <TextField
                             label="Senha"
                             type="password"
                             fullWidth
-                            sx={{ mt: 1 }} 
+                            value={senha}
+                            onChange={(e) => setSenha(e.target.value)}
+                            error={senha.length > 0 && !senhaValid}
+                            helperText={senha.length > 0 && !senhaValid ? senhaError : ""}
+                            sx={{ 
+                                mt: 2,
+                                "& .MuiOutlinedInput-root": {
+                                    "&.Mui-focused fieldset": {
+                                        borderColor: senha.length > 0 && senhaValid ? "green" : undefined,
+                                    },
+                                },
+                                "& .MuiInputLabel-root.Mui-focused": {
+                                    color: senha.length > 0 && senhaValid ? "green" : undefined,
+                                }, 
+
+                            
+                            }} 
                         />
                         <Button
                             type="submit"
                             variant="contained"
                             fullWidth
-                            sx={{mt: 2, background: "#B3D4F5"}}
+                            sx={{mt: 4, background: "#B3D4F5"}}
                         >
                             <Box display="flex" alignItems="center" gap={1}>
                                 Entrar
