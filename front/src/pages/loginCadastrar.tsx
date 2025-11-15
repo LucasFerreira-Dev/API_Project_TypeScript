@@ -27,6 +27,8 @@ const LoginCadastrar: React.FC = () => {
     const [senha, setSenha] = useState("");
     const [error, setError] = useState("");
 
+    const [username, setUsername] = useState("");
+
     // validações usando zod
     const emailValid = emailSchema.safeParse(email).success;
     const senhaParse = passwordSchema.safeParse(senha);
@@ -95,6 +97,26 @@ const LoginCadastrar: React.FC = () => {
                     )}
 
                     <Box component="form" onSubmit={handleSubmit}>
+                        <TextField
+                            label="Usuário"
+                            type="text"
+                            fullWidth
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            sx={{
+                                mt: 1,
+                                mb: 1,
+                                "& .MuiOutlinedInput-root": {
+                                    "&.Mui-focused fieldset": {
+                                        borderColor: "green",
+                                    },
+                                },
+                                "& .MuiInputLabel-root.Mui-focused": {
+                                    color: "green",
+                                },
+                            }}
+                        />
+
                         <TextField
                             label="Email"
                             type="email"
