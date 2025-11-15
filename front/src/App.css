@@ -5,16 +5,14 @@ html, body, #root {
 }
 
 body {
-   background-color: #B3D4F5; /* azul bem claro */
+   background-color: #ffffff;
    -webkit-font-smoothing: antialiased;
    -moz-osx-font-smoothing: grayscale;
 }
 
-/* Opcional: manter centralização do conteúdo caso necessário */
 .App {
    min-height: 100vh;
    display: flex;
    align-items: center;
    justify-content: center;
 }
-
